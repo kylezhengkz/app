@@ -1,9 +1,9 @@
 const db = require("../config/db")
 
-class Post {
-  constructor(title, body) {
-    this.title = title
-    this.body = body
+class User {
+  constructor(username, password) {
+    this.username = username
+    this.password = password
   }
 
   async save() {
@@ -16,23 +16,23 @@ class Post {
 
     let sql = `
     INSERT INTO posts(
-      title,
-      body,
+      username,
+      password,
       created_at
     )
     VALUES(
-      '${this.title}',
-      '${this.body}',
+      '${this.username}',
+      '${this.password}',
       '${createdAtDate}'
       )
     `
 
-    const [newPost, _] = await db.execute(sql)
-    return newPost
+    const [newUser, _] = await db.execute(sql)
+    return newUser
   }
 
   static async delete(id) {
-    let sql = `DELETE FROM posts WHERE id = ${id}`
+    let sql = `DELETE FROM users WHERE id = ${id}`
     const [queryResult, _] = await db.execute(sql)
     return queryResult
    }
@@ -50,4 +50,4 @@ class Post {
   }
 }
 
-module.exports = Post
+module.exports = User

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/display_posts.css">
+</head>
+<body>
+  <h1>Posts</h1>
+  <form action="/posts/new" method="GET"><button type="submit">Create new post</button></form>
+  <% locals.posts.forEach((post)=> { %>
+    <div id="list_item">
+      <%= JSON.stringify(post) || "Error loading post" %>
+      <form action="/posts/delete" method="POST">
+        <input type="hidden" name="id" value=<%=post.id%>>
+        <button type="submit">Delete post</button>
+      </form>
+    </div>
+  <% }) %>
+</body>
+</html>
