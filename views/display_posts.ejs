@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="/display_posts.css">
+  <link rel="stylesheet" href="/display.css">
 </head>
 <body>
   <h1>Posts</h1>
   <form action="/posts/new" method="GET"><button type="submit">Create new post</button></form>
   <% locals.posts.forEach((post)=> { %>
-    <div id="list_item">
+    <div class="list_sql_item">
       <%= JSON.stringify(post) || "Error loading post" %>
       <form action="/posts/delete" method="POST">
         <input type="hidden" name="id" value=<%=post.id%>>

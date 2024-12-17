@@ -1,4 +1,4 @@
-#list_item {
+.list_sql_item {
   display: flex;
   flex-direction: row;
 }

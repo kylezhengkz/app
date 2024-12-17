@@ -8,7 +8,21 @@ function getDateStr() {
   return `${yyyy}-${mm}-${dd}`
 }
 
-async function add_post_record(title, body) {
+async function checkValExist(table_name, column_name, val) {
+  let sql = `
+  SELECT 1
+  FROM ${table_name}
+  WHERE ${column_name} = '${val}'
+  `
+  const [queryResult, _] = await db.execute(sql)
+  if (queryResult.length > 0) {
+    return true
+  } else {
+    return false
+  }
+}
+
+exports.addPostRecord = async function addPostRecord(title, body) {
   let createdAtDate = getDateStr()
 
   let sql = `
@@ -23,17 +37,30 @@ async function add_post_record(title, body) {
     '${createdAtDate}'
     )
   `
-  await db.execute(sql)
+  const [queryResult, _] = await db.execute(sql)
+  return queryResult
 }
 
-async function add_user_record(username, password) {
+class DuplicateUsername extends Error {
+  constructor() {
+    super("Username already exists")
+    this.name = "DuplicateUsername"
+  }
+}
+exports.DuplicateUsername = DuplicateUsername
+
+exports.addUserRecord = async function addUserRecord(username, password) {
   let createdAtDate = getDateStr()
 
+  if (await checkValExist("users", "username", username)) {
+    throw new DuplicateUsername()
+  }
+
   let sql = `
-  INSERT INTO posts(
+  INSERT INTO users(
     username,
     password,
-    created_at
+    joined_at
   )
   VALUES(
     '${username}',
@@ -41,20 +68,25 @@ async function add_user_record(username, password) {
     '${createdAtDate}'
     )
   `
-  await db.execute(sql)
+  
+  const [queryResult, _] = await db.execute(sql)
+  return queryResult
 }
 
-async function delete_row(id) {
-  let sql = `DELETE FROM posts WHERE id = ${id}`
-  await db.execute(sql)
+exports.deleteById = async function deleteById(table_name, id) {
+  let sql = `DELETE FROM ${table_name} WHERE id = ${id}`
+  const [queryResult, _] = await db.execute(sql)
+  return queryResult
  }
 
- async function findAll() {
-  let sql = "SELECT * FROM posts"
-  await db.execute(sql)
+ exports.findAll = async function findAll(table_name) {
+  let sql = `SELECT * FROM ${table_name}`
+  const [queryResult, _] = await db.execute(sql)
+  return queryResult
  }
 
-async function findById(id) {
-  let sql = `SELECT * FROM posts WHERE id = ${id}`
-  await db.execute(sql)
+exports.findById = async function findById(table_name, id) {
+  let sql = `SELECT * FROM ${table_name} WHERE id = ${id}`
+  const [queryResult, _] = await db.execute(sql)
+  return queryResult
 }

@@ -11,6 +11,10 @@ app.use(express.urlencoded())
 app.use(express.static(__dirname + '/public'));
 console.log(__dirname)
 
+app.get("/", (req, res, next) => {
+  res.render("home.ejs")
+})
+
 // Redirect requests to endpoint starting with /posts to postRoutes.js
 app.use("/posts", require("./routes/postRoutes"));
 app.use("/users", require("./routes/userRoutes"));

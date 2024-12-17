@@ -6,12 +6,12 @@
   <title>Document</title>
 </head>
 <body>
-  <form action="/users" method="POST">
+  <form action="/users/signup" method="POST">
     <label>Username:
-      <input type="text" name="username">
+      <input type="text" name="username" required>
     </label>
     <label>Password:
-      <input type="text" name="password">
+      <input type="text" name="password" required>
     </label>
     <input type="submit" value="Sign up">
   </form>

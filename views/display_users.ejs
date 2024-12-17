@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/display.css">
+</head>
+<body>
+  <h1>Users</h1>
+  <form action="/users/signup" method="GET"><button>Create new user</button></form>
+  <% locals.users.forEach((user) => { %>
+    <div class="list_sql_item">
+      <li><%= JSON.stringify(user) || "Error loading user" %></li>
+      <form action="/users/delete" method="POST">
+        <input type="hidden" name="id" value="<%=user.id%>">
+        <button>Delete user</button>
+      </form>
+    </div>
+  <% }) %>
+</body>
+</html>
