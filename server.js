@@ -1,7 +1,11 @@
 require("dotenv").config(); // ALLOWS ENVIRONMENT VARIABLES TO BE SET ON PROCESS.ENV SHOULD BE AT TOP
-
 const express = require("express");
+const session = require("express-session")
 const app = express();
+
+app.use(session({
+  secret: "some secret"
+}))
 
 app.set("view engine", "ejs")
 
